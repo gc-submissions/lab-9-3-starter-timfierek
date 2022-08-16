@@ -48,8 +48,11 @@ public class TrackerServiceA implements TrackerService{
 	 */
 	@Override
 	public int getTotalCount() {
-		// TODO Auto-generated method stub
-		return 0;
+		int total = 0;
+		for(CountPair count : counts) {
+			total += count.getCount();
+		}
+		return total;
 	}
 
 	/**
@@ -61,7 +64,9 @@ public class TrackerServiceA implements TrackerService{
 	 */
 	@Override
 	public boolean getTokenExists(String token) {
-		// TODO Auto-generated method stub
+		for(CountPair count : counts) {
+			if(count.getToken().equals(token)) return true;
+		}
 		return false;
 	}
 
@@ -76,7 +81,11 @@ public class TrackerServiceA implements TrackerService{
 	 */
 	@Override
 	public int getTokenCount(String token) {
-		// TODO Auto-generated method stub
+		for(CountPair count : counts) {
+			if(count.getToken().equals(token)) {
+				return count.getCount();
+			}
+		}
 		return 0;
 	}
  
