@@ -95,8 +95,12 @@ public class TrackerServiceA implements TrackerService{
 	 */
 	@Override
 	public String getLatest() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if(counts.size()==0) {
+			return "No Tokens Tracked";
+		}
+		String latest = counts.get(counts.size()-1).getToken();
+		return latest;
 	}
 
 	/**
@@ -109,8 +113,18 @@ public class TrackerServiceA implements TrackerService{
 	 */
 	@Override
 	public CountPair getTop() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		if(counts.size()==0) {
+			return new CountPair("", 0);
+		}
+		CountPair Top = counts.get(0);
+		for(CountPair count : counts) {
+			if(count.getCount() > Top.getCount()) {
+				Top = count;
+			}
+				
+		}
+		return Top;
 	}
 
 	/**
