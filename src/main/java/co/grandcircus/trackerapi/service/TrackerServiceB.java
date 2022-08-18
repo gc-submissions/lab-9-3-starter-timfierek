@@ -1,6 +1,9 @@
 package co.grandcircus.trackerapi.service;
 
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -10,10 +13,10 @@ import co.grandcircus.trackerapi.model.CountPair;
 @Service
 public class TrackerServiceB implements TrackerService {
 
-	private HashMap<String, CountPair> counts;
+	private LinkedHashMap<String, CountPair> counts;
 
 	public TrackerServiceB() {
-		counts = new HashMap<String, CountPair>();
+		counts = new LinkedHashMap<String, CountPair>();
 	}
 
 	/**
@@ -32,7 +35,7 @@ public class TrackerServiceB implements TrackerService {
 	 */
 	@Override
 	public void reset() {
-		counts = new HashMap<String, CountPair>();
+		counts.clear();
 	}
 
 	/**
@@ -114,6 +117,9 @@ public class TrackerServiceB implements TrackerService {
 	@Override
 	public List<String> getLatest5() {
 		
+		
+		
+		
 	}
 
 	/**
@@ -127,8 +133,33 @@ public class TrackerServiceB implements TrackerService {
 	 */
 	@Override
 	public List<CountPair> getTop5() {
+		ArrayList<CountPair> countPairs = new ArrayList<CountPair>();
 		
+		for(String token : counts.keySet()) {
+			countPairs.add(counts.get(token));
+		}
+		
+		countPairs.sort(topFiveSort);
+		List<CountPair> result = new ArrayList<CountPair>();
+		
+		int index = 0;
+		for(CountPair c : countPairs) {
+			if(index == 5) {
+				return result;
+			}
+			result.add(index, c);
+			index++;
+		}
+		
+		return result;
 	}
 
+	public static Comparator<CountPair> topFiveSort = new Comparator<CountPair>() {
+		public int compare(CountPair a, CountPair b) {
+			int countA = a.getCount();
+			int countB = b.getCount();
+			return countB-countA;
+		}
+	};
 }
 
