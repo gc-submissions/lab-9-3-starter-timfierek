@@ -60,6 +60,11 @@ public class TrackerServiceB implements TrackerService {
 	 */
 	@Override
 	public boolean getTokenExists(String token) {
+		for(CountPair count : counts.values()) {
+			if (count.getToken().equals(token))
+				return true;
+		}
+		return false;
 		
 	}
 
@@ -73,8 +78,14 @@ public class TrackerServiceB implements TrackerService {
 	 */
 	@Override
 	public int getTokenCount(String token) {
-		
-	}
+		for(CountPair count : counts.values()) {
+			if(count.getToken().equals(token)) {
+				return counts.get(token).getCount();
+			}
+		}
+			return 0;
+		}
+	
 
 	/**
 	 * Return the most recent token tracked 
