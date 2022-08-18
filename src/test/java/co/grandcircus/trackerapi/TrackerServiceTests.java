@@ -62,7 +62,7 @@ public class TrackerServiceTests {
 	
 	@Test
 	void testLatestWithZero() {
-		assertEquals("", service.getLatest());
+		assertEquals("No Tokens Tracked", service.getLatest());
 	}
 	
 	@Test
