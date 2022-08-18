@@ -26,8 +26,14 @@ public class TrackerServiceB implements TrackerService {
 	 */
 	@Override
 	public void add(String token) {
-		CountPair cur = counts.get(token);
-		cur.setCount(cur.getCount() + 1);
+		if (counts.get(token) == null) {
+			
+			CountPair newCount = new CountPair(token, 1);
+				} else {
+			CountPair cur = counts.get(token);
+			cur.setCount(cur.getCount() + 1);
+			
+				}
 	}
 
 	/**
@@ -84,12 +90,22 @@ public class TrackerServiceB implements TrackerService {
 
 	/**
 	 * Return the most recent token tracked 
-	 * 
+	 * surely there's a nicer way to do this 
 	 * Sam
-	 */
+	 */ 
 	@Override
 	public String getLatest() {
+		String latest = "";
+		int index = 0;
 		
+		    for (String token : counts.keySet()) {
+		    	if (counts.get(token).getToken().indexOf(token) > index)
+		    	index = counts.get(token).getToken().indexOf(token);
+		    	latest = counts.get(token).getToken();
+		    }
+		
+	
+		return latest;
 	}
 
 	/**
@@ -102,7 +118,15 @@ public class TrackerServiceB implements TrackerService {
 	 */
 	@Override
 	public CountPair getTop() {
-		
+		int top = 0;
+		CountPair topPair = counts.get(0);
+		for (String token : counts.keySet()) {
+			if (counts.get(token).getCount() > top) {
+			top = counts.get(token).getCount();
+			topPair = counts.get(token);
+		}
+		}
+		return topPair;
 	}
 
 	/**
