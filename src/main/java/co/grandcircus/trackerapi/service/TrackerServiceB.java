@@ -2,8 +2,8 @@ package co.grandcircus.trackerapi.service;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -64,6 +64,7 @@ public class TrackerServiceB implements TrackerService {
 			if (count.getToken().equals(token))
 				return true;
 		}
+//		return(counts.containsKey(token));
 		return false;
 		
 	}
@@ -83,8 +84,9 @@ public class TrackerServiceB implements TrackerService {
 				return counts.get(token).getCount();
 			}
 		}
+		
 			return 0;
-		}
+	}
 	
 
 	/**
@@ -120,10 +122,23 @@ public class TrackerServiceB implements TrackerService {
 	 */
 	@Override
 	public List<String> getLatest5() {
+		List<String> latest5 = new ArrayList<String>();
+		LinkedList<String> allTokens = new LinkedList<String>();
+		for(String key : counts.keySet()) {
+			allTokens.addFirst(key);
+		}
+		
+		int index = 0;
+		for(String token : allTokens) {
+			if(index == 5) {
+				return latest5;
+			}
+			latest5.add(token);
+			index++;
+		}
 		
 		
-		
-		
+		return latest5;
 	}
 
 	/**
